@@ -6,10 +6,13 @@ import Navbar from "@/Components/Navbar/Navbar";
 import Modals from "@/Components/Modals/modals";
 import UserLoginModal from "@/hooks/UseLoginModal";
 import LoginModal from "@/Components/Modals/LoginModal";
+import SignupModal from "@/Components/Modals/SignupModal";
+import useSignupModal from "@/hooks/useSignupModal";
 
 export default function ClientLayout({ children }) {
   const [open, setOpen] = useState(true)
   const userLoginModal=UserLoginModal()
+  const usesignupmodal=useSignupModal()
 
   return (
     <>
@@ -22,12 +25,8 @@ export default function ClientLayout({ children }) {
         isOpen={open}
         close={() => setOpen(false)}
       />
-      <LoginModal
-        label="Log in"
-        content={<p>Hello world</p>}
-        isOpen={open}
-        close={() => setOpen(false)}
-      />
+      <LoginModal/>
+      <SignupModal/>
       
     </>
   )

@@ -35,7 +35,7 @@ const Modals = ({ label, content, isOpen, close }) => {
           }`}
         >
           <div className="w-full h-auto rounded-xl relative flex flex-col bg-white">
-            <header className="h-[60px] relative flex items-center justify-center border-b">
+            <header className="h-[60px] relative flex items-center justify-center border-b border-b-gray-400">
               
               {/* SVG CLOSE BUTTON */}
               <div
