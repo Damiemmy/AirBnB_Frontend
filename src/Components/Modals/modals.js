@@ -58,7 +58,7 @@ const Modals = ({ label, content, isOpen, close }) => {
                 </svg>
               </div>
 
-              <h1 className="text-lg font-bold">{label}</h1>
+              <h1 className="text-lg font-bold text-gray-600">{label}</h1>
             </header>
 
             <section className="p-6">{content}</section>

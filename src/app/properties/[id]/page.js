@@ -27,7 +27,7 @@ const page = () => {
                     className='rounded-full'
                     alt='no image'
                 />
-                <p className='opacity-80'><strong>Felix Chijoke</strong> is your host</p>
+                <p className='opacity-80'><strong>Damisa Emmanuel</strong> is your host</p>
 
                 <hr/>
             </div>

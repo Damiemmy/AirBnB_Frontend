@@ -9,7 +9,7 @@ const ConversationDetail = () => {
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ipsam?</p>
       </div>
       <div className='bg-blue-200 rounded-xl ml-[20%] px-6 py-4 w-[80%]'>
-        <p className='font-bold text-gray-500'>Codemant</p>
+        <p className='font-bold text-gray-500'>Damisa Emmanuel</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ipsam?</p>
       </div>
       <div className='mt-4 px-6 py-4 flex border items-center border-gray-300 space-x-4 rounded-xl'>

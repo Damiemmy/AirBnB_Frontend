@@ -19,12 +19,12 @@ export default function ClientLayout({ children }) {
       <Navbar />
       <div className="pt-32">{children}</div>
 
-      <Modals
+      {/* <Modals
         label="Log in"
         content={<p>Hello world</p>}
         isOpen={open}
         close={() => setOpen(false)}
-      />
+      /> */}
       <LoginModal/>
       <SignupModal/>
       

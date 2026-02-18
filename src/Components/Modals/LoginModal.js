@@ -7,7 +7,7 @@ const LoginModal = () => {
   const loginmodal = UserLoginModal()
   const content = [
     <>
-      <h1 className='mb-6 text-2xl '>Welcome to UCOF'S-BnB, please log in</h1>
+      
       <form className='space-y-4 '>
         <input type='email' placeholder='your e-mail address' className='w-full h-[54px] px-4 border border-gray-300 rounded-xl'/>
         <input type='password' placeholder='enter your password' className='w-full h-[54px] px-4 border border-gray-300 rounded-xl'/>
@@ -25,7 +25,7 @@ const LoginModal = () => {
     <Modals 
       isOpen={loginmodal.isOpen} 
       close={loginmodal.closeModal} 
-      label='login' 
+      label='Log In' 
       content={content} 
     />
   )

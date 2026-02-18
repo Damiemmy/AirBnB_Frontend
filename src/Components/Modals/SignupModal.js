@@ -8,7 +8,6 @@ const SignupModal = () => {
   const signupmodal = UseSignupModal()
   const content = [
     <>
-      <h1 className='mb-6 text-2xl '>Welcome to UCOF'S-BnB, please create an Account</h1>
       <form className='space-y-4 '>
         <input type='email' placeholder='your e-mail address' className='w-full h-[54px] px-4 border border-gray-300 rounded-xl'/>
         <input type='password' placeholder='enter your password' className='w-full h-[54px] px-4 border border-gray-300 rounded-xl'/>
@@ -27,7 +26,7 @@ const SignupModal = () => {
     <Modals 
       isOpen={signupmodal.isOpen} 
       close={signupmodal.closeModal} 
-      label='sign up' 
+      label='Sign Up' 
       content={content} 
     />
   )
