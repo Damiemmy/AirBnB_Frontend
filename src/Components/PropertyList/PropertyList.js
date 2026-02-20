@@ -1,7 +1,8 @@
 "use client"
 import React, { useEffect,useState } from 'react'
 import PropertyListItem from './PropertyListItem'
-import { api } from '@/api/axios'
+import { api } from '@/services/ApiServices'
+import apiService from '@/services/ApiService'
 
 const PropertyList = () => {
   const[properties,setProperties]=useState([])
@@ -16,23 +17,13 @@ const PropertyList = () => {
   //   }
   // }
   const fetchProperties=async()=>{
-    const url= 'http://localhost:8000/api/properties/'
+    const tmpProperties=await apiService.get('/api/properties/')
+    setProperties(tmpProperties.data)
 
-    await fetch(url, {
-      method: "GET",
-
-    })
-    .then(response=>response.json())
-    .then((json)=>{
-      setProperties(json.data)
-    })
-    .catch(error=>{
-      console.log(error.message)
-      console.log("fail to get api requested data")
-    })
   }
 
   useEffect(()=>{
+    apiService.get('/api/properties')
     fetchProperties()
   },[])
 useEffect(()=>{
