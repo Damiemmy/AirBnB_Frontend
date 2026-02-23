@@ -5,6 +5,7 @@ import MenuLink from './MenuLink'
 import UserLoginModal from '@/hooks/UseLoginModal'
 import LoginModal from '../Modals/LoginModal'
 import UseSignupModal from '@/hooks/useSignupModal'
+import LogoutButton from '../LogoutButton'
 
 const UserNav = () => {
   const loginModal=UserLoginModal()
@@ -30,6 +31,7 @@ const UserNav = () => {
                   onClick={()=>{
                     console.log('clicked sign up button')
                     signupmodal.openModal()}}/>
+                    <LogoutButton/>
                 </div>
               )}
             

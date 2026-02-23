@@ -4,6 +4,7 @@ import Image from 'next/image'
 import SearchFilters from './SearchFilters'
 import UserNav from './UserNav'
 import AddPropertyButton from './AddPropertyButton'
+import { getUserId } from '@/app/lib/action'
 
 const Navbar = () => {
   return (
