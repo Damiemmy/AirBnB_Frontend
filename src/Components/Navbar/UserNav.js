@@ -7,7 +7,7 @@ import LoginModal from '../Modals/LoginModal'
 import UseSignupModal from '@/hooks/useSignupModal'
 import LogoutButton from '../LogoutButton'
 
-const UserNav = () => {
+const UserNav = ({userId}) => {
   const loginModal=UserLoginModal()
   const signupmodal=UseSignupModal()
   const [isOpen,setIsOpen]=useState(false)
@@ -22,16 +22,21 @@ const UserNav = () => {
             </svg>
               {isOpen && (
                 <div className='w-[220px] bg-white border-gray-200 flex flex-col absolute text-black top-[50px] right-[0] border rounded-xl cursor-pointer shadow-md text-left'>
-                  <MenuLink label='Log in' onClick={()=>{
-                    console.log('clicked login button')
-                    loginModal.openModal()
+                  {userId ? (<LogoutButton/>):(
+                    <>
+                      <MenuLink label='Log in' onClick={()=>{
+                      console.log('clicked login button')
+                      loginModal.openModal()
                     
-                  }}/>
-                  <MenuLink label='Sign up' 
-                  onClick={()=>{
-                    console.log('clicked sign up button')
-                    signupmodal.openModal()}}/>
-                    <LogoutButton/>
+                      }}/>
+                      <MenuLink label='Sign up' 
+                      onClick={()=>{
+                      console.log('clicked sign up button')
+                      signupmodal.openModal()}}/>
+                    </>
+                  )}
+                  
+                    
                 </div>
               )}
             

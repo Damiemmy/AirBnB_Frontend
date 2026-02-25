@@ -1,3 +1,4 @@
+" use client "
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
@@ -6,7 +7,10 @@ import UserNav from './UserNav'
 import AddPropertyButton from './AddPropertyButton'
 import { getUserId } from '@/app/lib/action'
 
-const Navbar = () => {
+const Navbar = async() => {
+    const userId=await getUserId()
+
+    
   return (
     <nav className='w-full fixed left-0 top-0 py-6 border-b border-b-gray-200 bg-white z-10'>
         <div className='max-w-[1500px] mx-auto px-6'>
@@ -24,7 +28,7 @@ const Navbar = () => {
                 
                 <div className='flex space-x-6 items-center'>
                     <AddPropertyButton/>
-                    <UserNav/>
+                    <UserNav userId={userId}/>
                 </div>
 
 

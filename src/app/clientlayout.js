@@ -16,7 +16,6 @@ export default function ClientLayout({ children }) {
 
   return (
     <>
-      <Navbar />
       <div className="pt-32">{children}</div>
 
       {/* <Modals
