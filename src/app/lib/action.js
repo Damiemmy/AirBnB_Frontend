@@ -30,9 +30,9 @@ export async function handleLogin(userId, accessToken, refreshToken) {
 export async function resetAuthCookies() {
     const cookieStore = await cookies(); // ✅ MUST await
 
-    cookieStore.set('session_userid', '', { maxAge: 0 });
-    cookieStore.set('session_accessToken', '', { maxAge: 0 });
-    cookieStore.set('session_refreshToken', '', { maxAge: 0 });
+    cookieStore.set('session_userid', '');
+    cookieStore.set('session_accessToken', '');
+    cookieStore.set('session_refreshToken', '');
 }
 
 
@@ -41,4 +41,9 @@ export async function getUserId() {
 
     const userId = cookieStore.get('session_userid')?.value;
     return userId ?? null;
+}
+
+export async function getAccessToken(){
+    let access_token=cookies().get('session_accessToken')?.value;
+    return access_token
 }

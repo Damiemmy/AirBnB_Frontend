@@ -7,8 +7,12 @@ import LoginModal from "./LoginModal"
 import Modals from "./modals"
 import CustomButton from "../Forms/CustomButton"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Categories from "../addproperty/Categories"
 import SelectCountry from "../Forms/SelectCountry"
+import apiService from "@/services/ApiService"
+import { Fjord_One } from "next/font/google"
+import { getUserId } from "@/app/lib/action"
 
 const AddPropertyModals = () => {
   //
@@ -22,13 +26,17 @@ const AddPropertyModals = () => {
   const[dataBathrooms,setDataBathrooms]=useState('')
   const[dataGuests,setDataGuests]=useState('')
   const[dataCountry,setDataCountry]=useState()
-  const[dataImage,setDataImage]=useState()
+  const[dataImage,setDataImage]=useState(null)
 
+  //
+  //
+  const router=useRouter()
 
 
   //
   //
   const addPropertyModals=UsePropertyModal();
+  
   
   //
   //Set datas
@@ -44,6 +52,44 @@ const AddPropertyModals = () => {
     }
     ;
 
+  }
+  
+  //
+  // Submit
+
+  const submitForm=async()=>{
+    if(
+      dataCountry &&
+      dataPrice &&
+      dataDescription &&
+      dataTitle &&
+      dataImage &&
+      dataCategory
+      )
+      {
+        const formData= new FormData();
+        formData.append('country',dataCountry.label)
+        formData.append('price_per_night',dataPrice)
+        formData.append('title',dataTitle)
+        formData.append('description',dataDescription)
+        formData.append('image',dataImage)
+        formData.append('bedrooms',dataBedrooms)
+        formData.append('bathrooms',dataBathrooms)
+        formData.append('category',dataCategory)
+        formData.append('guest',dataGuests)
+        formData.append('country_code',dataCountry.value)
+
+        try{
+          response=await apiService.post('/api/properties/create/',formData)
+          console.log(response.data)
+
+        }catch(err){
+          console.log(err.message)
+        }
+      }
+    else{
+      console.log("Please Complete all Form Submittion")
+    }
   }
 
   const content=[
@@ -150,7 +196,7 @@ const AddPropertyModals = () => {
               <div className="pt-3 pb-6 space-y-4">
                 <SelectCountry 
                   value={dataCountry}
-                  onChange={(value)=>setDataCountry()}
+                  onChange={(value)=>setDataCountry(value)}
                 />
               </div> 
               <CustomButton
@@ -195,7 +241,7 @@ const AddPropertyModals = () => {
               />
               <CustomButton
               label="Submit"
-              onClick={()=>console.log('submitted')}
+              onClick={submitForm}
               />
               </> 
             )

@@ -12,7 +12,7 @@ const SelectCountry = ({value,onChange}) => {
         placeholder='Anywhere'
         options={getAll()}
         value={value}
-        onChange={(value)=>onChange(onChange)}
+        onChange={(value)=>onChange(value)}
       />
     </div>
   )
