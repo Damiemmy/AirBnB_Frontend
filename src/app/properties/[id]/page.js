@@ -1,8 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
 import ReservationSidebar from '@/Components/PropertyList/ReservationSidebar'
+import apiService from '@/services/ApiService'
 
-const page = () => {
+const page = async({params}) => {
+  const property=await apiService.get(`/api/properties/${params.id}`)
   return (
     <main className='max-w-[1500px] mx-auto px-6 pb-6'>
       <div className='relative w-full h-[64vh] overflow-hidden rounded-xl'>
@@ -16,7 +18,7 @@ const page = () => {
       </div>
       <div className='pt-4 grid grid-cols-1 md:grid-cols-5 gap-4'>
         <div className='py-6 pr-6 col-span-3'>
-            <h1 className='mb-4 text-4xl'>Property Name</h1>
+            <h1 className='mb-4 text-4xl'>{property.title} Title</h1>
             <span className='mb-6 block text-gray-600 text-lg'> 4 guest - 2 bedroom - 1 bathroom</span>
             <hr className='text-gray-300'/>
             <div className='py-6 flex items-center space-x-4'>

@@ -1,10 +1,12 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const PropertyListItem = ({property}) => {
+    const router=useRouter()
   return (
-    <div className='cursor-pointer'>
+    <div className='cursor-pointer' onClick={()=>router.push(`/properties/${property.id}`)}>
         <div className='relative overflow-hidden aspect-square rounded-xl'>
             <Image
                 fill

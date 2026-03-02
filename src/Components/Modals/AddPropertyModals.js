@@ -13,6 +13,7 @@ import SelectCountry from "../Forms/SelectCountry"
 import apiService from "@/services/ApiService"
 import { Fjord_One } from "next/font/google"
 import { getUserId } from "@/app/lib/action"
+import { redirect } from "next/navigation"
 
 const AddPropertyModals = () => {
   //
@@ -27,6 +28,7 @@ const AddPropertyModals = () => {
   const[dataGuests,setDataGuests]=useState('')
   const[dataCountry,setDataCountry]=useState()
   const[dataImage,setDataImage]=useState(null)
+  const[errors,setErrors]=useState([])
 
   //
   //
@@ -83,26 +85,22 @@ const AddPropertyModals = () => {
         for (let pair of formData.entries()) {
           console.log(pair[0], pair[1]);
         }
-
-        try{
-          const response=await apiService.post('/api/properties/create/',formData)
+        const response=await apiService.post('/api/properties/create/',formData)
           // const token = await getAccessToken()
-          // console.log("TOKEN BEING SENT:", token)
-          if (response){
-            console.log(response.data)
-            router.push('/')
-            addPropertyModals.closeModal()
-          }else{
-            console.log('error in getting response')
-          }
-          
-
-        }catch(err){
-          console.log(err.message)
+          // console.log("TOKEN BEING SENT:", token
+        if (response.success){
+          console.log(response.data)
+          router.push('/')
+          addPropertyModals.closeModal()
+        }else{
+          const tmpErrors=Object.values(response).map((error)=>{
+          return error;
+          })
+          setErrors(tmpErrors);
         }
       }
     else{
-      console.log("Please Complete all Form Submittion")
+      console.log('Missing a required filed')
     }
   }
 
@@ -248,6 +246,13 @@ const AddPropertyModals = () => {
                 
                 }
               </div>
+              {errors.map((err,index)=>{
+                return (
+                  <div key={index} className="p-5 mb-4 bg-[#ff385c] text-white rounded-xl opacity-80">
+                    {errors}
+                  </div>
+                )
+              })}
               <CustomButton
               label="Previous"
               className="text-white text-center w-full py-4 rounded-xl mb-2 bg-black hover:bg-gray-800"
