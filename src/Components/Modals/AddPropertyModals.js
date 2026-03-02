@@ -49,6 +49,7 @@ const AddPropertyModals = () => {
     if(event.target.files && event.target.files.length > 0){
       const tmpImage=event.target.files[0];
       setDataImage(tmpImage)
+      
     }
     ;
 
@@ -73,15 +74,28 @@ const AddPropertyModals = () => {
         formData.append('title',dataTitle)
         formData.append('description',dataDescription)
         formData.append('image',dataImage)
-        formData.append('bedrooms',dataBedrooms)
-        formData.append('bathrooms',dataBathrooms)
-        formData.append('category',dataCategory)
+        formData.append('bedroom',dataBedrooms)
+        formData.append('bathroom',dataBathrooms)
+        formData.append('categories',dataCategory)
         formData.append('guest',dataGuests)
         formData.append('country_code',dataCountry.value)
+       
+        for (let pair of formData.entries()) {
+          console.log(pair[0], pair[1]);
+        }
 
         try{
-          response=await apiService.post('/api/properties/create/',formData)
-          console.log(response.data)
+          const response=await apiService.post('/api/properties/create/',formData)
+          // const token = await getAccessToken()
+          // console.log("TOKEN BEING SENT:", token)
+          if (response){
+            console.log(response.data)
+            router.push('/')
+            addPropertyModals.closeModal()
+          }else{
+            console.log('error in getting response')
+          }
+          
 
         }catch(err){
           console.log(err.message)

@@ -10,7 +10,7 @@ const LogoutButton = () => {
     const submitLogout = async () => {
         console.log("logging out")
 
-        await resetAuthCookies(); // ✅ await it
+        await resetAuthCookies(); //  await it
         router.push('/')
     }
 

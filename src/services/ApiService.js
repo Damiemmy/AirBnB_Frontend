@@ -1,8 +1,9 @@
 import { getAccessToken } from "@/app/lib/action";
+
 const apiService = {
     
     get: async (url) => {
-        const token = await getAccessToken()
+       
         console.log("get", url);
 
         try {
@@ -12,8 +13,8 @@ const apiService = {
                     method: "GET",
                     headers: {
                         "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": ` Bearer ${token}`
+                        "Content-Type": "application/json"
+                       
                     },
                 }
             );
@@ -31,7 +32,11 @@ const apiService = {
 
     post: async (url, data) => {
         const token = await getAccessToken()
-        console.log("url", url, data);
+        console.log("=================================");
+        console.log("POST REQUEST TO:", url);
+        console.log("TOKEN BEING SENT:", token);
+        console.log("=================================");
+
 
         try {
             const response = await fetch(
@@ -39,10 +44,10 @@ const apiService = {
                 {
                     method: "POST",
                     headers: {
-                        "Accept": "application/json",
-                        "Authorization": ` Bearer ${token}`
+                        "Authorization": `Bearer ${token}`
+                        
                     },
-                    body: (data),
+                    body: data
                 }
             );
 
@@ -56,10 +61,8 @@ const apiService = {
             throw error;
         }
     },
+    // For unauthenticated requests
     postWithoutToken: async (url, data) => {
-       
-        console.log("url", url, data);
-
         try {
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_HOST}${url}`,
@@ -67,23 +70,20 @@ const apiService = {
                     method: "POST",
                     headers: {
                         "Accept": "application/json",
-                        "Content-Type": "application/json",
-                 
+                        "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(data),
+                    body: JSON.stringify(data)
                 }
             );
 
             const json = await response.json();
-            console.log("json", json);
-
+            console.log(json)
             return json;
-
         } catch (error) {
-            console.log(error.message);
             throw error;
         }
     }
+    
 };
 
 export default apiService;

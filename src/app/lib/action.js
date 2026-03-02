@@ -44,6 +44,6 @@ export async function getUserId() {
 }
 
 export async function getAccessToken(){
-    let access_token=cookies().get('session_accessToken')?.value;
-    return access_token
+    let accessToken=cookies().get('session_accessToken')?.value;
+    return accessToken
 }
