@@ -1,36 +1,99 @@
-import React from 'react'
+"use client";
+import { useState,useEffect } from 'react';
+import { Range } from 'react-date-range';
+import apiService from '@/services/ApiService';
+import UserLoginModal from '@/hooks/UseLoginModal';
+import { getUserId } from '@/app/lib/action';
+import DatePicker from '../Forms/calendar';
+import {differenceInDays,eachDayOfInterval} from 'date-fns';
 
-const ReservationSidebar = () => {
+
+const ReservationSidebar = ({property,userId}) => {
+    const initialDateRange={
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection'
+    }
+    const [fee, setFee]= useState(0)
+    const [nights, setNights]= useState(1)
+    const [totalprice, setTotalPrice]= useState(0)
+    const [dateRange, setDataRange]= useState(initialDateRange);
+    const [minDate,setMinDate]= useState(new Date());
+    const [guest,setGuest]= useState('1');
+    const guestRange= Array.from({length: property.guest},(_, index)=> index + 1)
+
+    const _setDateRange=(selection)=>{
+        const newStartDate = new Date(selection.startDate)
+        const newEndDate = new Date(selection.endDate)
+
+        if(newEndDate <= newStartDate){
+            newEndDate.setDate(newStartDate.getDate() + 1)
+        }
+
+        setDataRange({
+            ...dateRange,
+            startDate:newStartDate,
+            endDate:newEndDate
+        })
+    }
+
+    useEffect(()=>{
+        if(dateRange.startDate && dateRange.endDate){
+            const dayCount= differenceInDays(
+                dateRange.endDate,
+                dateRange.startDate
+                
+            );
+            if(dayCount && property.price_per_night){
+                const _fee=((dayCount * property.price_per_night) / 100) * 5;
+                setFee(_fee);
+                setTotalPrice(dayCount * property.price_per_night + _fee);
+                setNights(dayCount)
+
+            }else{
+                const _fee=(property.price_per_night/100)*5;
+                setFee(_fee)
+                setTotalPrice(property.price_per_night + _fee)
+                setNights(1)
+            }
+
+        }
+    },[dateRange])
   return (
     <aside className='p-6 rounded-xl col-span-2 border mt-6 border-gray-300 shadow-xl'>
-        <h1 className='mb-5 text-2xl'>$200 per night</h1>
+        <h1 className='mb-5 text-2xl'>${property.price_per_night} per night</h1>
+        <DatePicker
+            value={dateRange}
+            onChange={(value)=> _setDateRange(value.selection)}
+        />
         <div className='mb-6 border border-gray-400 p-3 rounded-xl'>
             <label className='block pb-2 font-bold text-xs opacity-80'>Guests</label>
-            <select className='w-full -ml-1 text-xm'>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-
+            <select 
+                className='w-full -ml-1 text-xm'
+                value={guest}
+                onChange={(e)=>setGuest(e.target.value)}
+            >
+                {guestRange.map(number=>(
+                    <option key={number} value={number}>{number}</option>
+                ))}
             </select>
         </div>
         <div className='w-full py-6 mb-6 cursor-pointer text-center text-white bg-[#ff385c] hover:bg-[#d50027] rounded-xl'>Book
         </div>
         <div className='mb-4 flex justify-between opacity-90 align-center'>
-            <p>$200 * 4 nights</p>
-            <p>$800</p>
+            <p>${property.price_per_night} * {nights} nights</p>
+            <p>${property.price_per_night * nights}</p>
 
         </div>
         <div className='mb-4 flex justify-between opacity-90 align-center'>
             <p>DjangoAirbnb Fee</p>
-            <p>$40</p>
+            <p>${fee}</p>
 
         </div>
         <hr className='text-gray-300'/>
         <div className='mt-4 flex justify-between opacity-90 align-center font-bold'>
             <p>Total</p>
-            <p>$840</p>
+            <p>${totalprice}</p>
 
         </div>
     </aside>

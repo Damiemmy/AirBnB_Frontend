@@ -10,7 +10,7 @@ const page = async({params}) => {
       <div className='relative w-full h-[64vh] overflow-hidden rounded-xl'>
         <Image
             fill
-            src={'/images/house1.avif'}
+            src={property.image_url}
             alt='No ProperDetail Image'
             className='w-full h-full object-cover'
         />
@@ -18,26 +18,39 @@ const page = async({params}) => {
       </div>
       <div className='pt-4 grid grid-cols-1 md:grid-cols-5 gap-4'>
         <div className='py-6 pr-6 col-span-3'>
-            <h1 className='mb-4 text-4xl'>{property.title} Title</h1>
-            <span className='mb-6 block text-gray-600 text-lg'> 4 guest - 2 bedroom - 1 bathroom</span>
+            <h1 className='mb-4 text-4xl'>{property.title}</h1>
+            <span className='mb-6 block text-gray-600 text-lg'>{property.guest} guest - {property.bedroom} bedroom -{property.bathroom} bathroom</span>
             <hr className='text-gray-300'/>
             <div className='py-6 flex items-center space-x-4'>
-                <Image
+                {property.landlord.avatar_url? 
+                  
+                    (<Image
+                    src={property.landlord.avatar_url}
+                    width={50}
+                    height={50}
+                    className='rounded-full'
+                    alt='no image'
+                    />):(
+                    <Image
                     src={'/damisaa.jfif'}
                     width={50}
                     height={50}
                     className='rounded-full'
                     alt='no image'
-                />
-                <p className='opacity-80'><strong>Damisa Emmanuel</strong> is your host</p>
+                    />
+                    )
+                  
+                }
+                
+                <p className='opacity-80'><strong>{property.landlord.name}</strong> is your host</p>
 
                 <hr/>
             </div>
             <div className='mt-6 text-lg'>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit adipisci, labore expedita deleniti illum voluptate rerum debitis a vero, perferendis necessitatibus rem consectetur atque magni neque! Voluptatum possimus, veniam, dolores quos voluptatem quisquam odit et nesciunt at dignissimos velit repudiandae? Sit, dolorum veritatis eius voluptas vero ullam iure corrupti nulla!
+                    {property.description}
             </div>
         </div>
-        <ReservationSidebar/>
+        <ReservationSidebar property={property}/>
         
       </div>
     </main>
