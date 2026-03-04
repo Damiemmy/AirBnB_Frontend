@@ -3,7 +3,7 @@ import { DateRange,RangeKeyDict,Range } from "react-date-range"
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css'; 
 
-const DatePicker = (value,onChange,bookedDates) => {
+const DatePicker = ({value,onChange,bookedDates}) => {
   return (
     <div>
       <DateRange
@@ -11,7 +11,7 @@ const DatePicker = (value,onChange,bookedDates) => {
         rangeColors={['#262626']}
         ranges={[value]}
         date={new Date()}
-        onChange={()=>onChange}
+        onChange={onChange}
         direction="vertical"
         showDateDisplay={false}
         minDate={new Date()}
