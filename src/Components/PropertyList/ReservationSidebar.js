@@ -6,7 +6,8 @@ import UserLoginModal from '@/hooks/UseLoginModal';
 import { getUserId } from '@/app/lib/action';
 import DatePicker from '../Forms/calendar';
 import {differenceInDays,eachDayOfInterval} from 'date-fns';
-
+import { format } from 'date-fns';
+import { api } from '@/services/ApiServices';
 
 const ReservationSidebar = ({property,userId}) => {
     const initialDateRange={
@@ -21,6 +22,35 @@ const ReservationSidebar = ({property,userId}) => {
     const [minDate,setMinDate]= useState(new Date());
     const [guest,setGuest]= useState('1');
     const guestRange= Array.from({length: property.guest},(_, index)=> index + 1)
+    const userLogin=UserLoginModal()
+
+
+    const perform_booking=async()=>{
+        if(userId){
+            if(dateRange.startDate && dateRange.endDate){
+                const formData= new FormData()
+                formData.append('guests',guest)
+                formData.append('start_date',format(dateRange.startDate,'yyyy-MM-dd'))
+                formData.append('end_date',format(dateRange.endDate,'yyyy-MM-dd'))
+                formData.append('number_of_nights',nights)
+                formData.append('total_price',totalprice)
+
+                const response=await apiService.post(`/api/properties/${property.id}/book/`,formData)
+                if (response.success){
+                    console.log({"successful":"reservation Booked Successfully"})
+                }else{
+                    console.log('something went Wrong...')
+                }
+                
+                
+
+            }
+            
+        }
+        else{
+            userLogin.openModal()
+        }
+    }
 
     const _setDateRange=(selection)=>{
         const newStartDate = new Date(selection.startDate)
@@ -35,10 +65,18 @@ const ReservationSidebar = ({property,userId}) => {
             startDate:newStartDate,
             endDate:newEndDate
         })
+
+        console.log({'startDate':dateRange.startDate,'endDate':dateRange.endDate})
     }
 
     useEffect(()=>{
         if(dateRange.startDate && dateRange.endDate){
+            //Debugging if startDate and endDate is Recieved correctly:
+            
+            console.log(dateRange.startDate)
+            console.log(dateRange.endDate)
+
+            //
             const dayCount= differenceInDays(
                 dateRange.endDate,
                 dateRange.startDate
@@ -78,7 +116,9 @@ const ReservationSidebar = ({property,userId}) => {
                 ))}
             </select>
         </div>
-        <div className='w-full py-6 mb-6 cursor-pointer text-center text-white bg-[#ff385c] hover:bg-[#d50027] rounded-xl'>Book
+        <div
+            onClick={perform_booking}
+            className='w-full py-6 mb-6 cursor-pointer text-center text-white bg-[#ff385c] hover:bg-[#d50027] rounded-xl'>Book
         </div>
         <div className='mb-4 flex justify-between opacity-90 align-center'>
             <p>${property.price_per_night} * {nights} nights</p>
