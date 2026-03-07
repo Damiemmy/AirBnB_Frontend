@@ -21,6 +21,7 @@ const ReservationSidebar = ({property,userId}) => {
     const [dateRange, setDataRange]= useState(initialDateRange);
     const [minDate,setMinDate]= useState(new Date());
     const [guest,setGuest]= useState('1');
+    const [bookedDates,setBookedDates]=useState([]);
     const guestRange= Array.from({length: property.guest},(_, index)=> index + 1)
     const userLogin=UserLoginModal()
 
@@ -69,7 +70,26 @@ const ReservationSidebar = ({property,userId}) => {
         console.log({'startDate':dateRange.startDate,'endDate':dateRange.endDate})
     }
 
+    const getReservations=async()=>{
+        const Reservation = await apiService.get(`/api/properties/${property.id}/reservations/`)
+        let dates = [];
+
+
+        Reservation.forEach((reservation)=>{
+            const range = eachDayOfInterval({
+                start: new Date(reservation.start_date),
+                end: new Date(reservation.end_date)
+            });
+
+            dates=[...dates,...range]
+        })
+
+        setBookedDates(dates);
+
+    }
+
     useEffect(()=>{
+        getReservations()
         if(dateRange.startDate && dateRange.endDate){
             //Debugging if startDate and endDate is Recieved correctly:
             
@@ -103,6 +123,7 @@ const ReservationSidebar = ({property,userId}) => {
         <DatePicker
             value={dateRange}
             onChange={(value)=> _setDateRange(value.selection)}
+            bookedDates={bookedDates}
         />
         <div className='mb-6 border border-gray-400 p-3 rounded-xl'>
             <label className='block pb-2 font-bold text-xs opacity-80'>Guests</label>
