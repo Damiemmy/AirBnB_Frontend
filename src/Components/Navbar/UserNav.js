@@ -6,11 +6,13 @@ import UserLoginModal from '@/hooks/UseLoginModal'
 import LoginModal from '../Modals/LoginModal'
 import UseSignupModal from '@/hooks/useSignupModal'
 import LogoutButton from '../LogoutButton'
+import { useRouter } from 'next/navigation'
 
 const UserNav = ({userId}) => {
   const loginModal=UserLoginModal()
   const signupmodal=UseSignupModal()
   const [isOpen,setIsOpen]=useState(false)
+  const router=useRouter()
   return (
     <div className='relative p-2 inline-block border border-gray-200 rounded-full'>
         <button onClick={()=>setIsOpen(!isOpen)} className='flex px-2 items-center'>
@@ -22,7 +24,19 @@ const UserNav = ({userId}) => {
             </svg>
               {isOpen && (
                 <div className='w-[220px] bg-white border-gray-200 flex flex-col absolute text-black top-[50px] right-[0] border rounded-xl cursor-pointer shadow-md text-left'>
-                  {userId ? (<LogoutButton/>):(
+                  {userId ? (
+                    <>
+                      <MenuLink
+                      label='My properties'
+                      onClick={()=>{
+                      console.log('clicked Myproperties button')
+                      setIsOpen(false)
+                        router.push(`/myproperties/`)}}
+
+                      />
+                      <LogoutButton/>
+                    </>
+                    ):(
                     <>
                       <MenuLink label='Log in' onClick={()=>{
                       console.log('clicked login button')

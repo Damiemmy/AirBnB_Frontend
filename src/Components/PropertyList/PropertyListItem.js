@@ -2,8 +2,9 @@
 import React from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import FavoriteButton from '../FavoriteButton'
 
-const PropertyListItem = ({property}) => {
+const PropertyListItem = ({property,markFavorite}) => {
     const router=useRouter()
   return (
     <div className='cursor-pointer' onClick={()=>router.push(`/properties/${property.id}`)}>
@@ -16,6 +17,13 @@ const PropertyListItem = ({property}) => {
                 className='hover:scale-110 object-cover transition h-full w-full'
                 
             />
+            {markFavorite &&(
+                <FavoriteButton
+                id={property.id}
+                is_favorite={property.favourited}
+                markFavorite={(is_favorite)=>markFavorite(is_favorite)}
+                />
+            )}
             
         </div>
         <div className='mt-2'>

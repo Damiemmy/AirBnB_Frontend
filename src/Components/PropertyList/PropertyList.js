@@ -4,7 +4,7 @@ import PropertyListItem from './PropertyListItem'
 import { api } from '@/services/ApiServices'
 import apiService from '@/services/ApiService'
 
-const PropertyList = () => {
+const PropertyList = ({landlord_id}) => {
   const[properties,setProperties]=useState([])
 
   // const fetchProperties=async()=>{
@@ -16,8 +16,32 @@ const PropertyList = () => {
   //     console.log("an error occured")
   //   }
   // }
+
+  const markFavorite=({id,is_favorite})=>{
+      const tmpProperties=properties.map((property)=>{
+        if(property.id == id){
+          property.favourited=is_favorite
+          if(is_favorite){
+            console.log('added to list of Favourite properties')
+          }
+          }else{
+            console.log('removed from list')
+        }
+
+        return property;
+
+      })
+
+      setProperties(tmpProperties);
+
+  }
+
   const fetchProperties=async()=>{
-    const tmpProperties=await apiService.get('/api/properties/')
+    let url='/api/properties/'
+    if (landlord_id){
+      url +=`?landlord_id=${landlord_id}`
+    }
+    const tmpProperties=await apiService.get(url)
     setProperties(tmpProperties.data)
 
   }
@@ -32,7 +56,7 @@ useEffect(()=>{
   return (
     <>
       {properties.map((property)=>{
-      return(<PropertyListItem key={property.id} property={property}/>)
+      return(<PropertyListItem key={property.id} property={property} markFavorite={(is_favorite)=>markFavorite(property.id,is_favorite)}/>)
       })}
     </>
   )

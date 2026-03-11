@@ -7,13 +7,15 @@ const apiService = {
         console.log("get", url);
 
         try {
+            const token = await getAccessToken()
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_HOST}${url}`,
                 {
                     method: "GET",
                     headers: {
                         "Accept": "application/json",
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
                        
                     },
                 }
