@@ -23,6 +23,7 @@ const apiService = {
 
             const json = await response.json();
             console.log("json", json);
+            console.log("TOKEN:", token)
 
             return json;
 
@@ -55,6 +56,7 @@ const apiService = {
 
             const json = await response.json();
             console.log("json", json);
+           
 
             return json;
 

@@ -3,9 +3,12 @@ import React from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import FavoriteButton from '../FavoriteButton'
+import { useEffect } from 'react'
 
 const PropertyListItem = ({property,markFavorite}) => {
     const router=useRouter()
+
+   
   return (
     <div className='cursor-pointer' onClick={()=>router.push(`/properties/${property.id}`)}>
         <div className='relative overflow-hidden aspect-square rounded-xl'>
@@ -20,7 +23,8 @@ const PropertyListItem = ({property,markFavorite}) => {
             {markFavorite &&(
                 <FavoriteButton
                 id={property.id}
-                is_favorite={property.favourited}
+                is_favorite={property.is_favorite}
+                // markFavorite={(is_favorite)=>markFavorite(property.id, is_favorite)}
                 markFavorite={(is_favorite)=>markFavorite(is_favorite)}
                 />
             )}

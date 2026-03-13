@@ -17,11 +17,11 @@ const PropertyList = ({landlord_id}) => {
   //   }
   // }
 
-  const markFavorite=({id,is_favorite})=>{
+  const markFavorite=(id,is_favorite)=>{
       const tmpProperties=properties.map((property)=>{
         if(property.id == id){
-          property.favourited=is_favorite
-          if(is_favorite){
+          property.is_favorite=is_favorite
+          if(is_favorite==true){
             console.log('added to list of Favourite properties')
           }
           }else{
@@ -35,16 +35,48 @@ const PropertyList = ({landlord_id}) => {
       setProperties(tmpProperties);
 
   }
-
+/*
   const fetchProperties=async()=>{
     let url='/api/properties/'
     if (landlord_id){
       url +=`?landlord_id=${landlord_id}`
     }
-    const tmpProperties=await apiService.get(url)
-    setProperties(tmpProperties.data)
+    //
+    // const tmpProperties=await apiService.get(url)
+    // setProperties(tmpProperties.data)
+    //
+
+    //
+    //
+      const response = await apiService.get(url)
+      const propertiesWithFavorite = response.data.map((property) => ({...property,is_favorite: response.favorites.includes(property.id)
+      }))
+
+      setProperties(propertiesWithFavorite)
+    //
+    //
 
   }
+*/
+const fetchProperties = async () => {
+  let url = '/api/properties/'
+
+  if (landlord_id) {
+    url += `?landlord_id=${landlord_id}`
+  }
+
+  const response = await apiService.get(url)
+
+  const properties = response.data.data
+  const favorites = response.data.favorites
+
+  const propertiesWithFavorite = properties.map((property) => ({
+    ...property,
+    is_favorite: favorites.includes(property.id)
+  }))
+
+  setProperties(propertiesWithFavorite)
+}
 
   useEffect(()=>{
     apiService.get('/api/properties')
