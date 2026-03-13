@@ -24,8 +24,9 @@ const PropertyListItem = ({property,markFavorite}) => {
                 <FavoriteButton
                 id={property.id}
                 is_favorite={property.is_favorite}
+                
                 // markFavorite={(is_favorite)=>markFavorite(property.id, is_favorite)}
-                markFavorite={(is_favorite)=>markFavorite(is_favorite)}
+                markFavorite={markFavorite}
                 />
             )}
             

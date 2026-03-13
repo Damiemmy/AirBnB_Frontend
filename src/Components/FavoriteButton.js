@@ -8,7 +8,7 @@ const FavoriteButton = ({ id, is_favorite, markFavorite }) => {
         
     },[])
      
-
+/*
     const toggleFavorite = async (e) => {
         e.stopPropagation()
 
@@ -23,6 +23,38 @@ const FavoriteButton = ({ id, is_favorite, markFavorite }) => {
             console.error(error)
         }
     }
+*/ 
+    
+
+/*    const toggleFavorite = async (e) => {
+    e.stopPropagation();
+
+    try {
+        const response = await apiService.post(
+            `/api/properties/${id}/toggle_favorite/`, {}
+        );
+
+        // call parent with id and new value
+        markFavorite(id, response.is_favourite); // <-- note id passed here
+    } catch (error) {
+        console.error(error);
+    }
+    };
+*/
+const toggleFavorite = async (e) => {
+    e.stopPropagation();
+
+    try {
+        const response = await apiService.post(
+            `/api/properties/${id}/toggle_favorite/`, {}
+        );
+
+        // call parent with id and new value
+        markFavorite(id, response.is_favourite); // <-- note id passed here
+    } catch (error) {
+        console.error(error);
+    }
+};
 
     return (
         <button
