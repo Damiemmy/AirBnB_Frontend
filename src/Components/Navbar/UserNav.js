@@ -27,11 +27,35 @@ const UserNav = ({userId}) => {
                   {userId ? (
                     <>
                       <MenuLink
+                      label='My Inbox'
+                      onClick={()=>{
+                      console.log('clicked MyInbox button')
+                      setIsOpen(false)
+                        router.push(`/inbox/`)}}
+
+                      />
+                      <MenuLink
                       label='My properties'
                       onClick={()=>{
                       console.log('clicked Myproperties button')
                       setIsOpen(false)
                         router.push(`/myproperties/`)}}
+
+                      />
+                      <MenuLink
+                      label='My Favourites'
+                      onClick={()=>{
+                      console.log('clicked MyFavourite button')
+                      setIsOpen(false)
+                        router.push(`/myfavourites/`)}}
+
+                      />
+                      <MenuLink
+                      label='My Reservation'
+                      onClick={()=>{
+                      console.log('clicked MyFavourite button')
+                      setIsOpen(false)
+                        router.push(`/myreservations/`)}}
 
                       />
                       <LogoutButton/>

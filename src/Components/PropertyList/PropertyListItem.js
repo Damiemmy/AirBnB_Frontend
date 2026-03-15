@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import FavoriteButton from '../FavoriteButton'
 import { useEffect } from 'react'
 
-const PropertyListItem = ({property,markFavorite}) => {
+const PropertyListItem = ({property,markFavorite,loadingFavorite}) => {
     const router=useRouter()
 
    
@@ -27,6 +27,7 @@ const PropertyListItem = ({property,markFavorite}) => {
                 
                 // markFavorite={(is_favorite)=>markFavorite(property.id, is_favorite)}
                 markFavorite={markFavorite}
+                loadingFavorite={loadingFavorite}
                 />
             )}
             

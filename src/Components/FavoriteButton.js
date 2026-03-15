@@ -2,7 +2,7 @@
 import apiService from "@/services/ApiService"
 import { useEffect } from "react"
 
-const FavoriteButton = ({ id, is_favorite, markFavorite }) => {
+const FavoriteButton = ({ id, is_favorite, markFavorite,loadingFavorite }) => {
     useEffect(()=>{
         console.log('MARK_FAVOURITE', markFavorite)
         
@@ -43,7 +43,6 @@ const FavoriteButton = ({ id, is_favorite, markFavorite }) => {
 */
 const toggleFavorite = async (e) => {
     e.stopPropagation();
-
     try {
         const response = await apiService.post(
             `/api/properties/${id}/toggle_favorite/`, {}
@@ -59,7 +58,8 @@ const toggleFavorite = async (e) => {
     return (
         <button
             onClick={toggleFavorite}
-            className="absolute top-2 right-2"
+            disabled={loadingFavorite === id}
+             className={`absolute top-2 right-2 ${loadingFavorite === id ? "opacity-50" : ""}`}
         >
             {is_favorite ? (
                 <svg xmlns="http://www.w3.org/2000/svg"

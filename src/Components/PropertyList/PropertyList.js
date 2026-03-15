@@ -1,113 +1,83 @@
 "use client"
-import React, { useEffect,useState } from 'react'
-import PropertyListItem from './PropertyListItem'
-import { api } from '@/services/ApiServices'
-import apiService from '@/services/ApiService'
 
-const PropertyList = ({landlord_id}) => {
-  const[properties,setProperties]=useState([])
+import React, { useEffect, useState } from "react"
+import PropertyListItem from "./PropertyListItem"
+import apiService from "@/services/ApiService"
 
-  // const fetchProperties=async()=>{
-  //   try{
-  //       const response=await api.get("api/properties/")
-  //       console.log(response.data)
-  //   }catch(err){
-  //     console.log("error:", err.message)
-  //     console.log("an error occured")
-  //   }
-  // }
+const PropertyList = ({ landlord_id,favorites}) => {
 
-  // const markFavorite=(id,is_favorite)=>{
-  //     const tmpProperties=properties.map((property)=>{
-  //       if(property.id == id){
-  //         property.is_favorite=is_favorite
-  //         if(is_favorite==true){
-  //           console.log('added to list of Favourite properties')
-  //         }
-  //         }else{
-  //           console.log('removed from list')
-  //       }
-        
-
-  //       return property;
-
-  //     })
-      
-
-  //     setProperties(tmpProperties);
-
-  // }
-
-  const markFavorite = (id, is_favorite) => {
-  const updated = properties.map((property) => 
-    property.id === id ? { ...property, is_favorite } : property
-  );
-  setProperties(updated);
-  };
+  const [properties, setProperties] = useState([])
+  const [loadingFavorite, setLoadingFavorite] = useState(null)
 
   const fetchProperties = async () => {
-  let url = "/api/properties/"
+    let url = "/api/properties/"
 
-  if (landlord_id) {
-    url += `?landlord_id=${landlord_id}`
+    if (landlord_id) {
+      url += `?landlord_id=${landlord_id}`
+    }else if(favorites){
+      url += '?is_favorites=true'
+    }
+
+    try {
+      const response = await apiService.get(url)
+
+      const properties = response.data || []
+      const favorites = response.favorites || []
+
+      const propertiesWithFavorite = properties.map((property) => ({
+        ...property,
+        is_favorite: favorites.includes(property.id)
+      }))
+
+      setProperties(propertiesWithFavorite)
+
+    } catch (error) {
+      console.error("Failed to fetch properties:", error)
+    }
   }
 
-  const response = await apiService.get(url)
-  console.log("API RESPONSE:", response)
+  const markFavorite = async (id, is_favorite) => {
 
-  // const properties = response.data.data
-  // const favorites = response.data.favorites
-  const properties = response.data
-  const favorites = response.favorites
+    if (loadingFavorite === id) return
 
-  const propertiesWithFavorite = properties.map((property) => ({
-    ...property,
-    is_favorite: favorites.includes(property.id)
-  }))
+    setLoadingFavorite(id)
 
-  setProperties(propertiesWithFavorite)
-}
+    const updated = properties.map((property) =>
+      property.id === id ? { ...property, is_favorite } : property
+    )
 
-/*
-const fetchProperties = async () => {
-  let url = '/api/properties/'
+    setProperties(updated)
 
-  if (landlord_id) {
-    url += `?landlord_id=${landlord_id}`
+    // try {
+    //   await apiService.post(`/api/properties/${id}/toggle_favorite/`)
+    // } catch (error) {
+
+    //   const reverted = updated.map((property) =>
+    //     property.id === id ? { ...property, is_favorite: !is_favorite } : property
+    //   )
+
+    //   setProperties(reverted)
+
+    //   console.error("Favorite update failed:", error)
+    // }
+
+    setLoadingFavorite(null)
   }
 
-  const response = await apiService.get(url)
-
-  const properties = response.data.data
-  const favorites = response.data.favorites
-
-  const propertiesWithFavorite = properties.map((property) => ({
-    ...property,
-    is_favorite: favorites.includes(property.id)
-  }))
-
-  setProperties(propertiesWithFavorite)
-}
-*/
-
-  useEffect(()=>{
+  useEffect(() => {
     fetchProperties()
-  },[])
-useEffect(()=>{
-    console.log(properties)
-  },[properties])
+  }, [landlord_id])
+
   return (
     <>
-      {properties.map((property)=>{
-      return(
-      // <PropertyListItem key={property.id} property={property} markFavorite={(is_favorite)=>markFavorite(property.id,is_favorite)}/>
-      <PropertyListItem 
-      key={property.id} 
-      property={property} 
-      markFavorite={markFavorite} // just pass the function
-  />
-    )
-      })}
+      {properties.map((property) => (
+        <PropertyListItem
+          key={property.id}
+          property={property}
+          loadingFavorite={loadingFavorite}
+          markFavorite={markFavorite}
+        />
+      ))}
     </>
   )
 }
