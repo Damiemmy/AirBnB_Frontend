@@ -44,6 +44,7 @@ export async function getUserId() {
 }
 
 export async function getAccessToken(){
-    let accessToken=cookies().get('session_accessToken')?.value;
-    return accessToken
+    const cookieStore=await cookies();
+    let accessToken=cookieStore.get('session_accessToken')?.value;
+    return accessToken ?? null;
 }

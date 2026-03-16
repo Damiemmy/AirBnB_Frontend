@@ -4,8 +4,10 @@ import { getUserId } from '@/app/lib/action'
 import apiService from '@/services/ApiService'
 import { getAccessToken } from '@/app/lib/action'
 
-const page = async({params}) => {
+const page = async({ params }) => {
   const userId=await getUserId()
+  const id=await params
+  const conversationId = id.id 
   const token=await getAccessToken()
     if(!userId){
         return(
@@ -16,7 +18,8 @@ const page = async({params}) => {
     }
 
 
-  const conversation=await apiService.get(`/api/chat/${params.id}`)
+  const conversation=await apiService.get(`/api/chat/${conversationId}/`)
+  console.log('CHECK_CONVERSATION',conversation)
 
   return (
     <main className='max-w-[1500px] px-6 pb-6 mx-auto space-y-4'>

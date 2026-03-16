@@ -4,13 +4,14 @@ import CustomButton from '../Forms/CustomButton'
 import useWebSocket from 'react-use-websocket'
 
 const ConversationDetail = ({conversation,userId,token}) => {
-  const myUser=conversation.users.find((user)=> user.id == userId)
-  const otherUser=conversation.users.find((user)=> user.id != userId)
+  
+  const myUser=conversation.users?.find((user)=> user.id == userId)
+  const otherUser=conversation.users?.find((user)=> user.id != userId)
 
   const{sendJsonMessage,lastJsonMessage,readyState}= useWebSocket(`ws://127.0.0.1:8000/ws/${conversation.id}/?token=${token}`,
     {
       share: false,
-      shouldReconnect: () => True,
+      shouldReconnect: () => true,
     },
   )
 
