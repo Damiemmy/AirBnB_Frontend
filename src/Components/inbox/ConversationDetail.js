@@ -7,9 +7,11 @@ const ConversationDetail = ({conversation,userId,token}) => {
   const messageDiv=useRef(null)
   const[realTimeMessages,setRealTimeMessages]=useState([])
   const [newMessage,setNewMessage]=useState('')
-  const myUser=conversation.users?.find((user)=> user.id == userId)
-  const otherUser=conversation.users?.find((user)=> user.id != userId)
+  const myUser=conversation?.conversation?.users?.find((user)=> user.id == userId)
+  const otherUser=conversation?.conversation?.users?.find((user)=> user.id != userId)
   console.log('CONVERSATION',conversation.conversation.id)
+  console.log('CONVERSATION_USER',myUser)
+  console.log('CONVERSATION_OTHERUSER',otherUser)
   const{sendJsonMessage,lastJsonMessage,readyState}= useWebSocket(`ws://127.0.0.1:8000/ws/${conversation.conversation.id}/?token=${token}`,
     {
       share: false,
@@ -29,7 +31,7 @@ const ConversationDetail = ({conversation,userId,token}) => {
         body: lastJsonMessage.body,
         sent_to: otherUser,
         created_by: myUser,
-        conversationId: conversation.id
+        conversationId: conversation.conversation.id
       }
       setRealTimeMessages((realTimeMessages)=>[...realTimeMessages, message]
       );
@@ -39,14 +41,26 @@ const ConversationDetail = ({conversation,userId,token}) => {
   }, [lastJsonMessage])
 
   const sendMessage=()=>{
+     if (!newMessage.trim()) return;
+
+    if (!conversation?.conversation?.id || !otherUser?.id || !myUser?.name) {
+      console.log("Missing required data ❌");
+      return;
+    }
     console.log('sendMessage')
+    console.log({
+      body: newMessage,
+      name: myUser?.name,
+      sent_to_id: otherUser?.id,
+      conversation_id: conversation.conversation.id
+    })
     sendJsonMessage({
       event: 'chat_message',
       data:{
         body: newMessage,
         name: myUser?.name,
         sent_to_id: otherUser?.id,
-        conversation_id: conversation.id
+        conversation_id: conversation.conversation.id
       }
     })
      setNewMessage('')
