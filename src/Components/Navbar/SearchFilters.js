@@ -1,8 +1,12 @@
-import React from 'react'
+'use client'
+import UseSearchModel from '@/hooks/useSearchModel'
 
 const SearchFilters = () => {
+    const searchModel=UseSearchModel()
   return (
-    <div className='h-[48px] lg:h-[64px] flex flex-row justify-between items-center border border-gray-200 rounded-full'>
+    <div 
+    onClick={()=>searchModel.openModal('location')}
+    className='h-[48px] lg:h-[64px] flex flex-row justify-between items-center border border-gray-200 rounded-full'>
         <div className='hidden lg:block'>
             <div className='flex flex-row justify-between items-center'>
                 <div className='cursor-pointer w-[250px] h-[48px] lg:h-[64px] px-8 flex flex-col justify-center rounded-full hover:bg-gray-300'>

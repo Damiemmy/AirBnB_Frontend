@@ -9,6 +9,7 @@ import LoginModal from "@/Components/Modals/LoginModal";
 import SignupModal from "@/Components/Modals/SignupModal";
 import useSignupModal from "@/hooks/useSignupModal";
 import AddPropertyModals from "@/Components/Modals/AddPropertyModals";
+import SearchModel from "@/Components/Modals/searchModal";
 
 export default function ClientLayout({ children }) {
   const [open, setOpen] = useState(true)
@@ -27,6 +28,7 @@ export default function ClientLayout({ children }) {
       /> */}
       <LoginModal/>
       <SignupModal/>
+      <SearchModel/>
       <AddPropertyModals/>
       
     </>

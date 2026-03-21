@@ -23,7 +23,7 @@ const page = async({ params }) => {
 
   return (
     <main className='max-w-[1500px] px-6 pb-6 mx-auto space-y-4'>
-      <ConversationDetail conversation={conversation} userId={userId} token={token}/>
+      <ConversationDetail conversation={conversation} userId={userId} token={token} messages={conversation.messages}/>
     </main>
   )
 }

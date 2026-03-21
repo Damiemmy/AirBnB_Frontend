@@ -3,7 +3,7 @@ import React, { useEffect, useState,useRef } from 'react'
 import CustomButton from '../Forms/CustomButton'
 import useWebSocket from 'react-use-websocket'
 
-const ConversationDetail = ({conversation,userId,token}) => {
+const ConversationDetail = ({conversation,userId,token,messages}) => {
   const messageDiv=useRef(null)
   const[realTimeMessages,setRealTimeMessages]=useState([])
   const [newMessage,setNewMessage]=useState('')
@@ -11,7 +11,10 @@ const ConversationDetail = ({conversation,userId,token}) => {
   const otherUser=conversation?.conversation?.users?.find((user)=> user.id != userId)
   console.log('CONVERSATION',conversation.conversation.id)
   console.log('CONVERSATION_USER',myUser)
-  console.log('CONVERSATION_OTHERUSER',otherUser)
+  console.log('CONVERSATION_OTHERUSER', otherUser)
+  console.log('CONVERSATION_OTHERUSER', otherUser)
+  console.log('CONVERSATIONMESSAGES', messages)
+
   const{sendJsonMessage,lastJsonMessage,readyState}= useWebSocket(`ws://127.0.0.1:8000/ws/${conversation.conversation.id}/?token=${token}`,
     {
       share: false,
@@ -22,6 +25,7 @@ const ConversationDetail = ({conversation,userId,token}) => {
   useEffect(()=>{
     console.log('connection state changed',readyState);
   },[readyState])
+
 
   useEffect(()=>{
     if(lastJsonMessage && typeof lastJsonMessage === 'object' && 'name' in lastJsonMessage){
@@ -87,6 +91,17 @@ const ConversationDetail = ({conversation,userId,token}) => {
         <p className='font-bold text-gray-500'>Damisa Emmanuel</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ipsam?</p>
       </div> */}
+      {messages.map((message,index)=>(
+        <div
+          key={index}
+          className={`w-[80%] rounded-xl px-6 py-4 ${message.created_by.name === myUser?.name ? 'ml-[20%] bg-blue-200': 'bg-gray-200' }`}
+        >
+          <p className='font-bold text-gray-500'>{message.created_by.name}</p>
+          <p>{message.body}</p>
+
+        </div>
+
+      ))}
       {realTimeMessages.map((message,index)=>(
         <div
           key={index}

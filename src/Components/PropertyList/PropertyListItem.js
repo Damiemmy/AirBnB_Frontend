@@ -22,12 +22,12 @@ const PropertyListItem = ({property,markFavorite,loadingFavorite}) => {
             />
             {markFavorite &&(
                 <FavoriteButton
-                id={property.id}
-                is_favorite={property.is_favorite}
-                
-                // markFavorite={(is_favorite)=>markFavorite(property.id, is_favorite)}
-                markFavorite={markFavorite}
-                loadingFavorite={loadingFavorite}
+                    id={property.id}
+                    is_favorite={property.is_favorite}
+                    
+                    // markFavorite={(is_favorite)=>markFavorite(property.id, is_favorite)}
+                    markFavorite={markFavorite}
+                    loadingFavorite={loadingFavorite}
                 />
             )}
             
