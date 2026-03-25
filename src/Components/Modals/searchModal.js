@@ -13,6 +13,8 @@ const SearchModel = () =>{
     endDate: new Date(),
     key: 'selection'
     }
+
+    
     //
     const[numGuests,setNumguests]=useState('1')
     const[numBedrooms,setNumBedrooms]=useState('0')
@@ -32,20 +34,36 @@ const SearchModel = () =>{
             bedrooms: parseInt(numBedrooms),
             category: ''
         }
+        searchModel.setQuery(newSearchQuery);
         searchModel.closeModal()
     }
 
 
     //
     // Set date range
+      
+
         const _setDateRange=(selection)=>{
+        const newStartDate = new Date(selection.startDate)
+        const newEndDate = new Date(selection.endDate)
+        
+
+        if(newEndDate <= newStartDate){
+            newEndDate.setDate(newStartDate.getDate() + 1)
             if(searchModel.step === 'checkin'){
-                searchModel.openModal('checkout')
+            searchModel.openModal('checkout')
             }else if (searchModel.step === 'checkout'){
-                searchModel.openModal('detail')
+                searchModel.openModal('details')
                 setDateRange(selection);
             }
         }
+
+        setDateRange({
+            ...dateRange,
+            startDate:newStartDate,
+            endDate:newEndDate
+        })
+    }
     //
     // Contents
 

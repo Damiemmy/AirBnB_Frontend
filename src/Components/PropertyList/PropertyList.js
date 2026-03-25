@@ -3,9 +3,24 @@
 import React, { useEffect, useState } from "react"
 import PropertyListItem from "./PropertyListItem"
 import apiService from "@/services/ApiService"
+import UseSearchModel from "@/hooks/useSearchModel"
+import {format} from 'date-fns'
 
 const PropertyList = ({ landlord_id,favorites}) => {
+  //
+  const searchModel=UseSearchModel()
+  const country=searchModel.query.country
+  const numGuests=searchModel.query.guests
+  const numBedrooms=searchModel.query.bedrooms
+  const numBathrooms=searchModel.query.bathrooms
+  const checkinDate=searchModel.query.checkIn
+  const checkoutDate=searchModel.query.checkOut
+  const category=searchModel.query.category
+  console.log("query:::",searchModel.query)
+  console.log("BEDROOMS:::",numBedrooms)
 
+
+  //
   const [properties, setProperties] = useState([])
   const [loadingFavorite, setLoadingFavorite] = useState(null)
 
@@ -16,6 +31,40 @@ const PropertyList = ({ landlord_id,favorites}) => {
       url += `?landlord_id=${landlord_id}`
     }else if(favorites){
       url += '?is_favorites=true'
+    }else{
+      let urlQuery='';
+
+      if (country){
+        urlQuery += '&country=' + country
+      }
+
+      if (numGuests){
+        urlQuery += '&numGuests=' + numGuests
+      }
+
+      if (numBedrooms){
+        urlQuery += '&numBedrooms=' + numBedrooms
+      }
+
+      if (numBathrooms){
+        urlQuery += '&numBathrooms=' + numBathrooms
+      }
+      if (checkinDate){
+        urlQuery += '&checkin=' + format(checkinDate,"yyyy-MM-dd")
+      }
+      if (checkoutDate){
+        urlQuery += '&checkout=' + format(checkoutDate,"yyyy-MM-dd")
+      }
+      if (category){
+        urlQuery += '&category=' + category
+      }
+      if (urlQuery.length){
+        console.log('Query',urlQuery);
+        urlQuery = '?' + urlQuery.substring(1);
+
+        url += urlQuery
+      }
+
     }
 
     try {
@@ -66,7 +115,7 @@ const PropertyList = ({ landlord_id,favorites}) => {
 
   useEffect(() => {
     fetchProperties()
-  }, [landlord_id])
+  }, [category,searchModel.query,landlord_id])
 
   return (
     <>

@@ -23,7 +23,7 @@ const Categories = ({setCategory,dataCategory}) => {
                         width={30}
                         height={30}
                     />
-                    <span className='text-xs'>Villa</span>
+                    <span className='text-xs'>Villas</span>
                 </div>
                 
                 <div onClick={()=>setCategory("Cabins")}

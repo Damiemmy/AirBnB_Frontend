@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 
 const PropertyListItem = ({property,markFavorite,loadingFavorite}) => {
     const router=useRouter()
+    console.log('MY PROPERTY IMAGE.............',property.image_url)
 
    
   return (
@@ -14,7 +15,7 @@ const PropertyListItem = ({property,markFavorite,loadingFavorite}) => {
         <div className='relative overflow-hidden aspect-square rounded-xl'>
             <Image
                 fill
-                src={property.image_url|| '/images/house1.avif'}
+                src={property.image_url || '/images/house1.avif'}
                 alt='home image'
                 sizes="(max-width: 768px) 768px, (max-width: 1200px) 768px, 768px"
                 className='hover:scale-110 object-cover transition h-full w-full'

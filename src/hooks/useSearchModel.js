@@ -6,7 +6,7 @@ const UseSearchModel = create((set) => ({
   step:'',
   openModal: (step) => set({ isOpen: true ,step:step}),
   closeModal: () => set({ isOpen: false }),
-   setQuery: (query) => set({query:query}),
+  setQuery: (query) => set({query:query}),
   query:{
     country: '',
     checkIn: null,
