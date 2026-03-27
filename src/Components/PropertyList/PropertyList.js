@@ -5,9 +5,11 @@ import PropertyListItem from "./PropertyListItem"
 import apiService from "@/services/ApiService"
 import UseSearchModel from "@/hooks/useSearchModel"
 import {format} from 'date-fns'
+import { useSearchParams } from "next/navigation"
 
 const PropertyList = ({ landlord_id,favorites}) => {
   //
+  const params = useSearchParams()
   const searchModel=UseSearchModel()
   const country=searchModel.query.country
   const numGuests=searchModel.query.guests
@@ -115,7 +117,7 @@ const PropertyList = ({ landlord_id,favorites}) => {
 
   useEffect(() => {
     fetchProperties()
-  }, [category,searchModel.query,landlord_id])
+  }, [category,searchModel.query,landlord_id,params])
 
   return (
     <>

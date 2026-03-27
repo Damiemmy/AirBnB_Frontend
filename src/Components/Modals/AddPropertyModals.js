@@ -90,7 +90,7 @@ const AddPropertyModals = () => {
           // console.log("TOKEN BEING SENT:", token
         if (response.success){
           console.log(response.data)
-          router.push('/')
+          router.push('/?added=true')
           addPropertyModals.closeModal()
         }else{
           const tmpErrors=Object.values(response).map((error)=>{
