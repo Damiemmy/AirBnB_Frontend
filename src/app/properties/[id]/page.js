@@ -19,6 +19,7 @@ const page = async({params}) => {
             src={property.image_url}
             alt='No ProperDetail Image'
             className='w-full h-full object-cover'
+            unoptimized
         />
 
       </div>

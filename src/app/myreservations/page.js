@@ -23,6 +23,7 @@ const page = async() => {
                                 src={reservation.property.image_url}   
                                 alt='image house' 
                                 className='hover:scale-110 h-full w-full transition object-cover'
+                                unoptimized
                             />
 
                         </div>
