@@ -22,7 +22,7 @@ const Categories = () => {
         searchModal.setQuery(query);
     }
   return (
-    <div className='flex pt-3 pb-6 space-x-12 items-center cursor-pointer'>
+    <div className='flex pt-3 pb-6 space-x-12 mt-3 md:mt-0 items-center cursor-pointer'>
         <div 
             onClick={()=>_setCategory('')}
             className={`flex flex-col space-y-2 pb-4 items-center border-b-2 ${category==""? 'border-black':'border-white'} opacity-60 hover:border-gray-300  hover:opacity-100`}>
