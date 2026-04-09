@@ -1,12 +1,11 @@
 "use client"
 import apiService from "@/services/ApiService"
 import { useEffect } from "react"
-
+import { getUserId } from "@/app/lib/action"
+import UserLoginModal from "@/hooks/UseLoginModal"
 const FavoriteButton = ({ id, is_favorite, markFavorite,loadingFavorite }) => {
-    useEffect(()=>{
-        console.log('MARK_FAVOURITE', markFavorite)
-        
-    },[])
+    const openLoginModal=UserLoginModal()
+  
      
 /*
     const toggleFavorite = async (e) => {
@@ -43,6 +42,11 @@ const FavoriteButton = ({ id, is_favorite, markFavorite,loadingFavorite }) => {
 */
 const toggleFavorite = async (e) => {
     e.stopPropagation();
+    const userId=await getUserId()
+    if(!userId){
+        return openLoginModal.openModal()
+    }
+    
     try {
         const response = await apiService.post(
             `/api/properties/${id}/toggle_favorite/`, {}

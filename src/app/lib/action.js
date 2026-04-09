@@ -3,8 +3,14 @@ import { cookies } from "next/headers"
 
 export async function handleRefresh(){
     console.log('handleRefresh')
-    
-    const refreshToken=await getRefreshToken();
+    const cookieStore = await cookies(); // ✅ ADD THIS
+
+    const refreshToken = await getRefreshToken();
+
+    if (!refreshToken) {
+        console.log("No refresh token found");
+        return null;
+    }
     const token=await fetch('http://localhost:8000/api/auth/token/refresh',{
         method: 'POST',
         body:JSON.stringify({
@@ -88,6 +94,9 @@ export async function getAccessToken(){
     const cookieStore=await cookies();
     let accessToken=cookieStore.get('session_accessToken')?.value;
     if(!accessToken){
+        const refreshToken = await getRefreshToken();
+
+        if (!refreshToken) return null; 
         accessToken=await handleRefresh();
 
     }
